@@ -75,8 +75,8 @@ wget "https://github.com/introlab/rtabmap/files/3457605/vtk6.3.0-arm64-qt4-libs-
 sudo unzip -j -d /usr/lib/aarch64-linux-gnu/ -o vtk.zip *.so*
 sudo unzip -j -d /usr/lib/cmake/vtk-6.3/Modules/ -o vtk.zip *.cmake*
 sudo rm /usr/lib/cmake/vtk-6.3/Modules/vtkGUISupportQtWebkit.cmake
-sudo sed -i 's/Qt5/Qt4/g' /usr/lib/cmake/vtk-6.3/VTKTargets.cmake
-sudo sed -i 's/Qt5/Qt4/g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
+sudo sed -i 's/;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets.cmake
+sudo sed -i 's/^.*"Qt5::[^;]*"$|;Qt5::[^;|"]*|(?<=")Qt5::.*[;]//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
 
 # creating new links
 cd /usr/lib/aarch64-linux-gnu
@@ -95,7 +95,6 @@ sudo ln -s libvtkCommonDataModel-6.3.so.6.3.0 libvtkCommonDataModel-6.3.so.1
 sudo ln -s libvtkCommonCore-6.3.so.6.3.0 libvtkCommonCore-6.3.so.1
 
 source /opt/ros/melodic/setup.bash
-source /opt/ros/melodic/setup.bash > ~/.bashrc
 
 # RtabMap with Qt4
 cd ~/Repos
@@ -114,3 +113,24 @@ sudo ldconfig
 
 # start and test RtabMap
 rtabmap
+
+# create catkin workspace and download ros packages
+mkdir -p ~/catkin_ws/src && cd ~/catkin_ws/src
+catkin_init_workspace
+cd .. && catkin_make
+cd src
+git clone https://github.com/ChemicalNRG/Azure_Kinect_ROS_Driver.git
+git clone https://github.com/ros-perception/image_transport_plugins.git --branch noetic-devel --single-branch
+git clone https://github.com/ros-perception/image_common.git --branch noetic-devel --single-branch
+git clone https://github.com/OAkyildiz/vision_opencv
+git clone https://github.com/introlab/rtabmap_ros
+
+# build the packages
+cd ..
+catkin_make -DCATKIN_ENABLE_TESTING=False -DRTABMAP_QT_VERSION=4 -DCMAKE_BUILD_TYPE=Release -j1
+
+source /opt/ros/melodic/setup.bash >> ~/.bashrc
+source ~/catkin_ws/devel/setup.bash >> ~/.bashrc
+source ~/.bashrc
+
+# test rtabmap_ros
