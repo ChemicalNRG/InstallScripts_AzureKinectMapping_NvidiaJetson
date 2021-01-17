@@ -1,6 +1,6 @@
-Installation scripts for installing mapping apps with support for Azure Kinect on Nvidia Jetson
+# Installation scripts for installing mapping apps with support for Azure Kinect on Nvidia Jetson
 
-Ubuntu18.sh: 
+# Ubuntu18.sh: 
 
 Azure Kinect Packages (k4a-tools libk4a1.4) \
 gtsam \
