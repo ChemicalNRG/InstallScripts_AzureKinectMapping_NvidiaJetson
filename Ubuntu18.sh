@@ -50,6 +50,15 @@ sudo wget -O /etc/udev/rules.d/99-k4a.rules https://github.com/microsoft/Azure
 # Make directory for packages that need to be build
 mkdir ~/Repos && cd ~/Repos
 
+# CMake
+mkdir cmake3192 && cd cmake3192
+git clone https://github.com/Kitware/CMake
+mkdir build && cd build
+../CMake/bootstrap && make -j$(($(nproc) - 2))
+sudo checkinstall --pkgname cmake --pkgversion 3.19.2 --provides cmake -y
+
+cd ../..
+
 # libnabo (needed for libpointmatcher)
 git clone git://github.com/ethz-asl/libnabo.git
 mkdir libnabo/build
@@ -116,7 +125,7 @@ rtabmap
 
 # create catkin workspace and download ros packages
 mkdir -p ~/catkin_ws/src && cd ~/catkin_ws/src
-catkin_init_workspace
+catkin init
 cd .. && catkin_make
 cd src
 git clone https://github.com/ChemicalNRG/Azure_Kinect_ROS_Driver.git
@@ -127,10 +136,10 @@ git clone https://github.com/introlab/rtabmap_ros
 
 # build the packages
 cd ..
-catkin_make -DCATKIN_ENABLE_TESTING=False -DRTABMAP_QT_VERSION=4 -DCMAKE_BUILD_TYPE=Release -j1
+catkin build -j1 --cmake-args -DCATKIN_ENABLE_TESTING=False -DRTABMAP_QT_VERSION=4 -DCMAKE_BUILD_TYPE=Release
 
-source /opt/ros/melodic/setup.bash >> ~/.bashrc
-source ~/catkin_ws/devel/setup.bash >> ~/.bashrc
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 
 # test rtabmap_ros
