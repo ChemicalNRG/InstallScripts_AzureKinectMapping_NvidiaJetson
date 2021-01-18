@@ -126,7 +126,7 @@ rtabmap
 # create catkin workspace and download ros packages
 mkdir -p ~/catkin_ws/src && cd ~/catkin_ws/src
 catkin init
-cd .. && catkin_make
+cd .. && catkin build
 cd src
 git clone https://github.com/ChemicalNRG/Azure_Kinect_ROS_Driver.git
 git clone https://github.com/ros-perception/image_transport_plugins.git --branch noetic-devel --single-branch
