@@ -109,23 +109,19 @@ sudo ln -s libvtkFiltersExtraction-6.3.so.6.3.0 libvtkFiltersExtraction-6.3.so.1
 sudo ln -s libvtkCommonDataModel-6.3.so.6.3.0 libvtkCommonDataModel-6.3.so.1
 sudo ln -s libvtkCommonCore-6.3.so.6.3.0 libvtkCommonCore-6.3.so.1
 
+sudo apt remove ros-melodic-rtabmap # no autoremove after that
 source /opt/ros/melodic/setup.bash
 
 # Build RtabMap with Qt4
 cd ~/Repos
-
 git clone https://github.com/introlab/rtabmap.git
 cd rtabmap/build
 cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=4 ..
 make -j$(($(nproc) - 2))
-sudo apt remove ros-melodic-rtabmap
 sudo make install
 
 # config file for Azure Kinect
-wget -O ~/Documents/RTAB-Map/config.ini http://official-rtab-map-forum.67519.x6.nabble.com/file/n7187/config_k4a_icp_v3.ini
 wget -O ~/.rtabmap/rtabmap.ini http://official-rtab-map-forum.67519.x6.nabble.com/file/n7187/config_k4a_icp_v3.ini
-
-sudo ldconfig
 
 # start and test RtabMap
 rtabmap
