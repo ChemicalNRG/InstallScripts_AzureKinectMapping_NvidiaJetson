@@ -78,6 +78,8 @@ sudo make install
 
 cd ../..
 
+sudo rm /usr/lib/aarch64-linux-gnu/libvtk*Qt*
+
 # get vtk6.3.0 files depending on Qt build with Qt4
 wget "https://github.com/introlab/rtabmap/files/3457605/vtk6.3.0-arm64-qt4-libs-cmake.zip" -O vtk.zip
 sudo unzip -j -d /usr/lib/aarch64-linux-gnu/ -o vtk.zip *.so*
