@@ -3,6 +3,8 @@
 # InstallScript_AzureKinectMapping_NvidiaJetson_Ubuntu18
 # Installation steps/script for mapping with Azure Kinect and Nvidia Jetson on Ubuntu 18 (Jetpack 4.4.1)
 
+# remote desktop: https://www.nomachine.com/download/download&id=116&s=ARM
+
 # add ROS repository
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -90,13 +92,6 @@ sudo cp /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake /usr/lib/cmake/vtk-6.3/VTKT
 sudo sed -i 's/;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets.cmake
 sudo sed -i 's/^.*"Qt5::[^;]*"$//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
 sudo sed -i 's/;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
-
-jetsonagx@jetsonagx:~/Repos$ cat /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake | grep -n  Qt5
-1869:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::OpenGL"
-1911:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "vtksys;Qt5::Widgets;Qt5::Sql"
-2195:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::Widgets"
-2206:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::WebKitWidgets"
-3581:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "vtkFiltersTexture;vtkFiltersSources;vtkGUISupportQt;Qt5::Widgets"
 
 # creating new links
 cd /usr/lib/aarch64-linux-gnu
