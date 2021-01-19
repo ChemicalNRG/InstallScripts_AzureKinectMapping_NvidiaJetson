@@ -138,7 +138,7 @@ cd src
 git clone https://github.com/ChemicalNRG/Azure_Kinect_ROS_Driver.git
 git clone https://github.com/ros-perception/image_transport_plugins.git --branch noetic-devel --single-branch
 git clone https://github.com/ros-perception/image_common.git --branch noetic-devel --single-branch
-git clone https://github.com/OAkyildiz/vision_opencv
+git clone https://github.com/BrutusTT/vision_opencv.git
 git clone https://github.com/introlab/rtabmap_ros
 
 # build the packages
