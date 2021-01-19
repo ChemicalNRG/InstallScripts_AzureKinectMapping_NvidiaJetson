@@ -85,9 +85,15 @@ sudo rm /usr/lib/cmake/vtk-6.3/Modules/vtkGUISupportQtWebkit.cmake
 wget "https://github.com/introlab/rtabmap/files/3457605/vtk6.3.0-arm64-qt4-libs-cmake.zip" -O vtk.zip
 sudo unzip -j -d /usr/lib/aarch64-linux-gnu/ -o vtk.zip *.so*
 sudo unzip -j -d /usr/lib/cmake/vtk-6.3/Modules/ -o vtk.zip *.cmake*
-sudo rm /usr/lib/cmake/vtk-6.3/Modules/vtkGUISupportQtWebkit.cmake
 sudo sed -i 's/;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets.cmake
-sudo sed -i 's/^.*"Qt5::[^;]*"$|;Qt5::[^;|"]*|(?<=")Qt5::.*[;]//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
+sudo sed -i 's/^.*"Qt5::[^;]*"$|;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
+
+jetsonagx@jetsonagx:~/Repos$ cat /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake | grep -n  Qt5
+1869:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::OpenGL"
+1911:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "vtksys;Qt5::Widgets;Qt5::Sql"
+2195:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::Widgets"
+2206:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::WebKitWidgets"
+3581:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "vtkFiltersTexture;vtkFiltersSources;vtkGUISupportQt;Qt5::Widgets"
 
 # creating new links
 cd /usr/lib/aarch64-linux-gnu
