@@ -37,9 +37,9 @@ mlocate \
 python-catkin-tools \
 ros-melodic-libg2o \
 ros-melodic-pcl-ros \
-ros-melodic-rtabmap-ros \
 ros-melodic-imu-filter-madgwick \
-ros-melodic-tf2-geometry-msgs
+ros-melodic-tf2-geometry-msgs \
+ros-melodic-rtabmap-ros \
 
 sudo -H pip3 install -U jetson-stats
 sudo updatedb
@@ -51,9 +51,8 @@ sudo wget -O /etc/udev/rules.d/99-k4a.rules https://github.com/microsoft/Azure
 mkdir ~/Repos && cd ~/Repos
 
 # CMake
-mkdir cmake3192 && cd cmake3192
 git clone https://github.com/Kitware/CMake
-mkdir build && cd build
+mkdir CMake/build && cd CMake/build
 ../CMake/bootstrap && make -j$(($(nproc) - 2))
 sudo checkinstall --pkgname cmake --pkgversion 3.19.2 --provides cmake -y
 
