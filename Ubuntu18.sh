@@ -53,7 +53,7 @@ mkdir ~/Repos && cd ~/Repos
 # CMake
 git clone https://github.com/Kitware/CMake
 mkdir CMake/build && cd CMake/build
-../CMake/bootstrap && make -j$(($(nproc) - 2))
+../bootstrap && make -j$(($(nproc) - 2))
 sudo checkinstall --pkgname cmake --pkgversion 3.19.2 --provides cmake -y
 
 cd ../..
