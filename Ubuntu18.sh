@@ -85,8 +85,11 @@ sudo rm /usr/lib/cmake/vtk-6.3/Modules/vtkGUISupportQtWebkit.cmake
 wget "https://github.com/introlab/rtabmap/files/3457605/vtk6.3.0-arm64-qt4-libs-cmake.zip" -O vtk.zip
 sudo unzip -j -d /usr/lib/aarch64-linux-gnu/ -o vtk.zip *.so*
 sudo unzip -j -d /usr/lib/cmake/vtk-6.3/Modules/ -o vtk.zip *.cmake*
+sudo cp /usr/lib/cmake/vtk-6.3/VTKTargets.cmake /usr/lib/cmake/vtk-6.3/VTKTargets.backup
+sudo cp /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake /usr/lib/cmake/vtk-6.3/VTKTargets-none.backup
 sudo sed -i 's/;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets.cmake
-sudo sed -i 's/^.*"Qt5::[^;]*"$|;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
+sudo sed -i 's/^.*"Qt5::[^;]*"$//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
+sudo sed -i 's/;Qt5::[^;|"]*//g' /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake
 
 jetsonagx@jetsonagx:~/Repos$ cat /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake | grep -n  Qt5
 1869:  IMPORTED_LINK_DEPENDENT_LIBRARIES_NONE "Qt5::OpenGL"
@@ -98,11 +101,11 @@ jetsonagx@jetsonagx:~/Repos$ cat /usr/lib/cmake/vtk-6.3/VTKTargets-none.cmake | 
 # creating new links
 cd /usr/lib/aarch64-linux-gnu
 
-sudo ln -sf libvtkGUISupportQtOpenGL-6.3.so.1 libvtkGUISupportQtOpenGL-6.3.so.6.3.0
-sudo ln -sf libvtkGUISupportQt-6.3.so.1 libvtkGUISupportQt-6.3.so.6.3.0
-sudo ln -sf libvtkRenderingQt-6.3.so.1 libvtkRenderingQt-6.3.so.6.3.0
-sudo ln -sf libvtkGUISupportQtSQL-6.3.so.1 libvtkGUISupportQtSQL-6.3.so.6.3.0
-sudo ln -sf libvtkViewsQt-6.3.so.1 libvtkViewsQt-6.3.so.6.3.0
+sudo ln -s libvtkGUISupportQtOpenGL-6.3.so.1 libvtkGUISupportQtOpenGL-6.3.so.6.3.0
+sudo ln -s libvtkGUISupportQt-6.3.so.1 libvtkGUISupportQt-6.3.so.6.3.0
+sudo ln -s libvtkRenderingQt-6.3.so.1 libvtkRenderingQt-6.3.so.6.3.0
+sudo ln -s libvtkGUISupportQtSQL-6.3.so.1 libvtkGUISupportQtSQL-6.3.so.6.3.0
+sudo ln -s libvtkViewsQt-6.3.so.1 libvtkViewsQt-6.3.so.6.3.0
 
 sudo ln -s libvtkInteractionStyle-6.3.so.6.3.0 libvtkInteractionStyle-6.3.so.1
 sudo ln -s libvtkRenderingOpenGL-6.3.so.6.3.0 libvtkRenderingOpenGL-6.3.so.1 
