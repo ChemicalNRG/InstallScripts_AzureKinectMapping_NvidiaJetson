@@ -15,6 +15,18 @@ sudo apt purge --auto-remove chromium-browser chromium-browser-l10n
 sudo do-release-upgrade -d -f DistUpgradeViewGtk3
 sudo apt autoremove
 
+# add ROS repository
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+# add microsoft repository
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+echo 'deb [arch=arm64] https://packages.microsoft.com/ubuntu/18.04/multiarch/prod bionic main' | sudo tee /etc/apt/sources.list.d/microsoft-prod.list
+sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
+
+# add GTSAM repository
+sudo add-apt-repository ppa:borglab/gtsam-release-4.0
+
 # Install newest Cuda
 # https://www.pugetsystems.com/labs/hpc/How-To-Install-CUDA-10-1-on-Ubuntu-19-04-1405/
 
@@ -26,6 +38,35 @@ sudo apt-get install dkms build-essential libnvidia-common-460
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
 sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
+
+sudo apt install \
+apt-utils \
+build-essential \
+checkinstall \
+cmake-data=3.19.2-0kitware1ubuntu20.04.1 \
+cmake \
+cmake-data \
+cmake-qt-gui \
+
+libssl-dev \
+python3-pip \
+gperf \
+ros-noetic-rtabmap-ros \
+k4a-tools \
+libk4a1.4 \
+libk4a1.4-dev \
+libclang-dev \
+libgmp3-dev \
+liblapack-dev \
+libopenblas-base \
+libmpfr-dev \
+libgdal-devlibgtsam-dev \
+libgtsam-unstable-dev \
+libnss3-dev \
+libsuitesparse-dev \
+
+
+sudo -H pip3 install -U jetson-stats
 
 # PCL Qt5 dependencies:
 # Qt5::Concurrent
