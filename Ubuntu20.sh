@@ -76,4 +76,7 @@ sudo -H pip3 install -U jetson-stats
 
 # Compile and install the needed submodules:
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
+git clone https://code.qt.io/qt/qt5.git --branch 5.15
+cd qt5
+git submodule update --init --recursive
 make module-<modulename>-install_subtargets
