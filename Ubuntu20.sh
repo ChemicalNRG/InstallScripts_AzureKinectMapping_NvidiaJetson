@@ -45,3 +45,9 @@ sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver 
 # Qt5::Widgets 
 # Qt5::Test 
 # Qt5::Concurrent
+
+# RtabMap Qt5 dependencies:
+# Qt5::Widgets 
+# Qt5::Core 
+# Qt5::Gui 
+# Qt5::Svg
