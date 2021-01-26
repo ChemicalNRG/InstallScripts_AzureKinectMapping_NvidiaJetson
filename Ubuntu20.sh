@@ -11,7 +11,6 @@ sudo apt purge --auto-remove chromium-browser chromium-browser-l10n
 
 # enable dist upgrade in 'Software & Updates --> Updates --> Notify me of a new Ubuntu version --> For any new version / For long-term support versions
 # https://carlosedp.medium.com/upgrading-your-nvidia-jetson-xavier-nx-to-latest-ubuntu-focal-fossa-20-04-5e92ccc5a66
-
 sudo do-release-upgrade -d -f DistUpgradeViewGtk3
 sudo apt autoremove
 
@@ -26,14 +25,6 @@ sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
 
 # add GTSAM repository
 sudo add-apt-repository ppa:borglab/gtsam-release-4.0
-
-# Install newest Cuda
-# https://www.pugetsystems.com/labs/hpc/How-To-Install-CUDA-10-1-on-Ubuntu-19-04-1405/
-
-sudo add-apt-repository ppa:graphics-drivers/ppa
-sudo apt update
-sudo apt upgrade
-sudo apt-get install dkms build-essential libnvidia-common-460
 
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
