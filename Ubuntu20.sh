@@ -59,23 +59,17 @@ libsuitesparse-dev \
 
 sudo -H pip3 install -U jetson-stats
 
-# PCL Qt5 dependencies: 
-# Qt5::Concurrent Qt5::OpenGL Qt5::Widgets
+# Compile and install the needed Modules:
+# https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
 
-# VTK Qt5 dependencies:
-# Qt5::Gui Qt5::Sql Qt5::Widgets PyQt5
-
-# OpenCV Qt5 dependencies:
-# Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
-
-# RtabMap Qt5 dependencies:
-# Qt5::Core Qt5::Gui Qt5::PrintSupport Qt5::Svg Qt5::Widgets 
-
-# ALL dependencies:
-# Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
-
-# Compile and install the needed submodules:
+# Qt5
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
+# PCL Qt5 dependencies: Qt5::Concurrent Qt5::OpenGL Qt5::Widgets
+# VTK Qt5 dependencies: Qt5::Gui Qt5::Sql Qt5::Widgets PyQt5
+# OpenCV Qt5 dependencies: Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
+# RtabMap Qt5 dependencies: Qt5::Core Qt5::Gui Qt5::PrintSupport Qt5::Svg Qt5::Widgets 
+# ALL dependencies: Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
+
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive
 ./configure -prefix /usr/local/qt5 -opensource -confirm-license -nomake tests -nomake examples -opengl desktop
