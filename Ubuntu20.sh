@@ -71,11 +71,11 @@ sudo -H pip3 install -U jetson-stats
 # ALL dependencies: Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
 
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init --recursive
-./configure -prefix /usr/local/qt5 -opensource -confirm-license -nomake tests -nomake examples -opengl desktop
-cd ..
+git submodule update --init --recursive && cd ..
 
 # qt5core
 mkdir qt5core && cd qt5core
+../qt5/configure -prefix /usr/local/qt5 -opensource -confirm-license -make qtcore -opengl desktop
 make module-qtcore-install_subtargets
-qmake -r; make -j$(($(nproc) - 2)) clean
+g++ -c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3
+qmake -r; make -j$(($(nproc) - 2)) module-qtcore-install_subtargets clean
