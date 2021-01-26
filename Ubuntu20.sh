@@ -28,10 +28,9 @@ wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/
 sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
 
 # PCL Qt5 dependencies:
-# Qt5::Widgets
+# Qt5::Concurrent
 # Qt5::OpenGL
-# QT5_WRAP_UI
-# QT5_WRAP_CPP
+# Qt5::Widgets
 
 # VTK Qt5 dependencies:
 # Qt5::Widgets
