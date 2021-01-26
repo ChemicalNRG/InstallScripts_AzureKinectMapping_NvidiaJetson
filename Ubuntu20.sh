@@ -81,4 +81,4 @@ git submodule update --init --recursive && cd ..
 
 # qt5core
 mkdir qt5core && cd qt5core
-make module-<modulename>-install_subtargets
+make module-qtcore-install_subtargets
