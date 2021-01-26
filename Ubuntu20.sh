@@ -71,14 +71,17 @@ sudo -H pip3 install -U jetson-stats
 # RtabMap Qt5 dependencies:
 # Qt5::Core Qt5::Gui Qt5::PrintSupport Qt5::Svg Qt5::Widgets 
 
-# All dependencies:
+# ALL dependencies:
 # Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
 
 # Compile and install the needed submodules:
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init --recursive && cd ..
+git submodule update --init --recursive
+./configure -prefix /usr/local/qt5 -opensource -confirm-license -nomake tests -nomake examples -opengl desktop
+cd ..
 
 # qt5core
 mkdir qt5core && cd qt5core
 make module-qtcore-install_subtargets
+qmake -r; make -j$(($(nproc) - 2)) clean
