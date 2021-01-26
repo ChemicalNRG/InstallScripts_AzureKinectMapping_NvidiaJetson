@@ -36,7 +36,6 @@ build-essential \
 checkinstall \
 cmake-data=3.19.2-0kitware1ubuntu20.04.1 \
 cmake \
-cmake-data \
 cmake-qt-gui \
 
 libssl-dev \
@@ -71,11 +70,14 @@ sudo -H pip3 install -U jetson-stats
 # ALL dependencies: Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
 
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init --recursive && cd ..
+git submodule update --init qtsvg && cd ..
 
 # qt5core
 mkdir qt5core && cd qt5core
-../qt5/configure -prefix /usr/local/qt5 -opensource -confirm-license -make qtcore -opengl desktop
+../qt5/configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop
+qmake -r; make CXXFLAGS="-g -Wall -Werror -O3" -j$(($(nproc) - 2)) module-qtcore-install_subtargets clean 
+
+
+cmake --build . --target core
 make module-qtcore-install_subtargets
 g++ -c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3
-qmake -r; make -j$(($(nproc) - 2)) module-qtcore-install_subtargets clean
