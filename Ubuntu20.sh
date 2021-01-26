@@ -68,39 +68,21 @@ libsuitesparse-dev \
 
 sudo -H pip3 install -U jetson-stats
 
-# PCL Qt5 dependencies:
-# Qt5::Concurrent
-# Qt5::OpenGL
-# Qt5::Widgets
+# PCL Qt5 dependencies: 
+# Qt5::Concurrent Qt5::OpenGL Qt5::Widgets
 
 # VTK Qt5 dependencies:
-# Qt5::Gui
-# Qt5::Sql
-# Qt5::Widgets
-# PyQt5
+# Qt5::Gui Qt5::Sql Qt5::Widgets PyQt5
 
 # OpenCV Qt5 dependencies:
-# Qt5::Concurrent
-# Qt5::Core 
-# Qt5::Gui
-# Qt5::Test 
-# Qt5::Widgets 
+# Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
 
 # RtabMap Qt5 dependencies:
-# Qt5::Core
-# Qt5::Gui
-# Qt5::PrintSupport
-# Qt5::Svg
-# Qt5::Widgets 
+# Qt5::Core Qt5::Gui Qt5::PrintSupport Qt5::Svg Qt5::Widgets 
 
 # All dependencies:
-# Qt5::Core
-# Qt5::Concurrent
-# Qt5::Gui
-# Qt5::OpenGL
-# Qt5::PrintSupport
-# Qt5::Sql
-# Qt5::Svg
-# Qt5::Test 
-# Qt5::Widgets
+# Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
 
+# Compile and install the needed submodules:
+# https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
+make module-<modulename>-install_subtargets
