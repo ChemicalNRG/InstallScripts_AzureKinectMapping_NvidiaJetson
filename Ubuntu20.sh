@@ -72,6 +72,7 @@ sudo make install
 # Qt5
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
 # https://en.wikipedia.org/wiki/Qt_(software)#Programming_language_bindings
+
 # PCL Qt5 dependencies: Qt5::Concurrent Qt5::OpenGL Qt5::Widgets
 # VTK Qt5 dependencies: Qt5::Gui Qt5::Sql Qt5::Widgets PyQt5
 # OpenCV Qt5 dependencies: Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
@@ -83,7 +84,7 @@ sudo make install
 
 # QtCore QtConcurrent QtGui QtOpenGL QtPrintSupport QtSql QtSvg QtTest QtWidgets QtWebEngine
 # submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwebengine qtxmlpatterns
-
+# https://github.com/grpc/grpc/issues/11655
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwayland qtwebengine qtxmlpatterns
 mkdir build && cd build
@@ -113,7 +114,4 @@ libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
 libsuitesparse-dev \
-
-# https://github.com/grpc/grpc/issues/11655
-make HAS_SYSTEM_OPENSSL_ALPN=false HAS_SYSTEM_OPENSSL_NPN=true HAS_EMBEDDED_OPENSSL_ALPN=false
 
