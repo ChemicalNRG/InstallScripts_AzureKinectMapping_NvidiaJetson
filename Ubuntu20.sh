@@ -37,26 +37,15 @@ checkinstall \
 cmake-data=3.19.2-0kitware1ubuntu20.04.1 \
 cmake \
 cmake-qt-gui \
-
-libssl-dev \
-python3-pip \
 gperf \
-ros-noetic-rtabmap-ros \
-k4a-tools \
-libk4a1.4 \
-libk4a1.4-dev \
 libclang-dev \
-libgmp3-dev \
-liblapack-dev \
-libopenblas-base \
-libmpfr-dev \
-libgdal-devlibgtsam-dev \
-libgtsam-unstable-dev \
+libdbus-1-dev \
+libfontconfig1-dev \
 libnss3-dev \
-libsuitesparse-dev \
+libvulkan-dev /
+libxkbcommon-dev
 
-
-sudo -H pip3 install -U jetson-stats
+cups + gtk+ ??
 
 # Compile and install the needed Modules:
 # https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
@@ -68,16 +57,51 @@ sudo -H pip3 install -U jetson-stats
 # OpenCV Qt5 dependencies: Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
 # RtabMap Qt5 dependencies: Qt5::Core Qt5::Gui Qt5::PrintSupport Qt5::Svg Qt5::Widgets 
 # ALL dependencies: Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
+# git submodule update --init <submodule>
+# ./configure -help
+# ./configure -list-features
+# ninja <submodule>/all
+# cmake --build . --target <submodule>
+# make module-<submodule>-install_subtargets
+# QMAKE_CXXFLAGS+="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -03"
+# QtCore QtConcurrent QtGui QtOpenGL QtPrintSupport QtSql QtSvg QtTest QtWidgets QtWebEngine
+# submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwayland qtwebengine qtxmlpatterns
 
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init qtsvg && cd ..
+git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwebengine qtxmlpatterns
+mkdir build && cd build
+../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
+make -j$(($(nproc) - 2)) clean
+sudo make install 
 
-# qt5core
-mkdir qt5core && cd qt5core
-../qt5/configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop
-qmake -r; make CXXFLAGS="-g -Wall -Werror -O3" -j$(($(nproc) - 2)) module-qtcore-install_subtargets clean 
+cd ..
 
+mkdir qtbuild && cd qtbuild
+../qt5/configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
+make -j$(($(nproc) - 2)) CXXFLAGS="-O3" clean
+sudo make install
 
+qmake -r; make CXXFLAGS="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3"
 cmake --build . --target core
 make module-qtcore-install_subtargets
+
 g++ -c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3
+
+
+libssl-dev \
+python3-pip \
+ros-noetic-rtabmap-ros \
+k4a-tools \
+libk4a1.4 \
+libk4a1.4-dev \
+libgmp3-dev \
+liblapack-dev \
+libopenblas-base \
+libmpfr-dev \
+libgdal-dev
+libgtsam-dev \
+libgtsam-unstable-dev \
+libsuitesparse-dev \
+
+
+sudo -H pip3 install -U jetson-stats
