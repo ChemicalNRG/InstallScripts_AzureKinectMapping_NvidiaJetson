@@ -26,10 +26,6 @@ sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
 # add GTSAM repository
 sudo add-apt-repository ppa:borglab/gtsam-release-4.0
 
-# https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
-wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
-sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
-
 sudo apt install \
 apt-utils \
 build-essential \
@@ -95,7 +91,13 @@ mkdir build && cd build
 make -j$(($(nproc) - 2)) && make clean
 sudo make install
 
-cd ..
+
+
+
+
+# https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
+wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
+sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
 
 cmake --build . --target core
 make module-qtcore-install_subtargets
