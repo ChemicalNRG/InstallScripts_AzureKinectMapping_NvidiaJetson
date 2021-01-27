@@ -58,6 +58,21 @@ cups + gtk+ ??
 # https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
 # QMAKE_CXXFLAGS+="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -03"
 
+# zlib
+git clone https://github.com/madler/zlib
+mkdir zlib/build && cd zlib/build
+cmake ..
+make -j$(($(nproc) - 2))
+sudo make install
+
+# libpng
+# https://github.com/glennrp/libpng/tree/libpng16/contrib/arm-neon
+git clone https://github.com/glennrp/libpng
+mkdir libpng/build && cd libpng/build
+.././configure --enable-arm-neon=check
+make -j$(($(nproc) - 2))
+sudo make install
+
 # Qt5
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
 # https://en.wikipedia.org/wiki/Qt_(software)#Programming_language_bindings
