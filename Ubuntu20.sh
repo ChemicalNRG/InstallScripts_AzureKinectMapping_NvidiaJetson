@@ -82,13 +82,13 @@ sudo make install
 # ninja <submodule>/all / cmake --build . --target <submodule> / make module-<submodule>-install_subtargets
 
 # QtCore QtConcurrent QtGui QtOpenGL QtPrintSupport QtSql QtSvg QtTest QtWidgets QtWebEngine
-# submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwayland qtwebengine qtxmlpatterns
+# submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwebengine qtxmlpatterns
 
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwebengine qtxmlpatterns
+git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwayland qtwebengine qtxmlpatterns
 mkdir build && cd build
-../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
-make -j$(($(nproc) - 2)) && make clean
+../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -skip qtmultimedia -gui -widgets
+make -j$(($(nproc) - 2)) HAS_SYSTEM_OPENSSL_ALPN=false HAS_SYSTEM_OPENSSL_NPN=true HAS_EMBEDDED_OPENSSL_ALPN=false && make clean
 sudo make install
 
 
@@ -113,4 +113,7 @@ libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
 libsuitesparse-dev \
+
+# https://github.com/grpc/grpc/issues/11655
+make HAS_SYSTEM_OPENSSL_ALPN=false HAS_SYSTEM_OPENSSL_NPN=true HAS_EMBEDDED_OPENSSL_ALPN=false
 
