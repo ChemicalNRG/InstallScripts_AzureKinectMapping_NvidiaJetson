@@ -44,6 +44,7 @@ libk4a1.4-dev \
 libclang-dev \
 libdbus-1-dev \
 libfontconfig1-dev \
+libharfbuzz-dev \
 libnss3-dev \
 libvulkan-dev \
 libxkbcommon-dev
@@ -58,6 +59,7 @@ cups + gtk+ ??
 
 # Qt5
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
+# https://en.wikipedia.org/wiki/Qt_(software)#Programming_language_bindings
 # PCL Qt5 dependencies: Qt5::Concurrent Qt5::OpenGL Qt5::Widgets
 # VTK Qt5 dependencies: Qt5::Gui Qt5::Sql Qt5::Widgets PyQt5
 # OpenCV Qt5 dependencies: Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
@@ -77,21 +79,14 @@ git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwebengine qtxmlpatterns
 mkdir build && cd build
 ../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
-make -j$(($(nproc) - 2)) clean
+make -j$(($(nproc) - 2))
+make clean
 sudo make install
 
 cd ..
 
-mkdir qtbuild && cd qtbuild
-../qt5/configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
-make -j$(($(nproc) - 2)) CXXFLAGS="-O3" clean
-sudo make install
-
-qmake -r; make CXXFLAGS="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3"
 cmake --build . --target core
 make module-qtcore-install_subtargets
-
-g++ -c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3
 
 sudo apt install \
 libssl-dev \
