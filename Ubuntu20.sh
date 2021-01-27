@@ -56,6 +56,7 @@ cups + gtk+ ??
 
 # Compile and install the needed Modules:
 # https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
+# QMAKE_CXXFLAGS+="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -03"
 
 # Qt5
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
@@ -65,13 +66,10 @@ cups + gtk+ ??
 # OpenCV Qt5 dependencies: Qt5::Concurrent Qt5::Core Qt5::Gui Qt5::Test Qt5::Widgets 
 # RtabMap Qt5 dependencies: Qt5::Core Qt5::Gui Qt5::PrintSupport Qt5::Svg Qt5::Widgets 
 # ALL dependencies: Qt5::Core Qt5::Concurrent Qt5::Gui Qt5::OpenGL Qt5::PrintSupport Qt5::Sql Qt5::Svg Qt5::Test Qt5::Widgets
-# git submodule update --init <submodule>
-# ./configure -help
-# ./configure -list-features
-# ninja <submodule>/all
-# cmake --build . --target <submodule>
-# make module-<submodule>-install_subtargets
-# QMAKE_CXXFLAGS+="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -03"
+
+# ./configure -help / -list-features / -list-libraries
+# ninja <submodule>/all / cmake --build . --target <submodule> / make module-<submodule>-install_subtargets
+
 # QtCore QtConcurrent QtGui QtOpenGL QtPrintSupport QtSql QtSvg QtTest QtWidgets QtWebEngine
 # submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwayland qtwebengine qtxmlpatterns
 
@@ -79,8 +77,7 @@ git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwebengine qtxmlpatterns
 mkdir build && cd build
 ../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
-make -j$(($(nproc) - 2))
-make clean
+make -j$(($(nproc) - 2)) && make clean
 sudo make install
 
 cd ..
