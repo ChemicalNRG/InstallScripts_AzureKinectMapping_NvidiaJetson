@@ -49,7 +49,7 @@ python3-pip
 
 sudo -H pip3 install -U jetson-stats
 
-cups + gtk+ ??
+cups (printsupport) + gtk+(qtWidgets) wayland client library(qtwayland client/qtmultimedia)
 
 # Compile and install the needed Modules:
 # https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
