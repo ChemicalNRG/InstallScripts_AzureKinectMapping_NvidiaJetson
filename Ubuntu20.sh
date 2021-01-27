@@ -47,7 +47,7 @@ libfontconfig1-dev \
 libharfbuzz-dev \
 libnss3-dev \
 libvulkan-dev \
-libxkbcommon-dev
+libxkbcommon-dev \
 python3-pip
 
 sudo -H pip3 install -U jetson-stats
