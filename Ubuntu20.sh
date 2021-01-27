@@ -38,12 +38,18 @@ cmake-data=3.19.2-0kitware1ubuntu20.04.1 \
 cmake \
 cmake-qt-gui \
 gperf \
+k4a-tools \
+libk4a1.4 \
+libk4a1.4-dev \
 libclang-dev \
 libdbus-1-dev \
 libfontconfig1-dev \
 libnss3-dev \
-libvulkan-dev /
+libvulkan-dev \
 libxkbcommon-dev
+python3-pip
+
+sudo -H pip3 install -U jetson-stats
 
 cups + gtk+ ??
 
@@ -72,7 +78,7 @@ git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative
 mkdir build && cd build
 ../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
 make -j$(($(nproc) - 2)) clean
-sudo make install 
+sudo make install
 
 cd ..
 
@@ -87,13 +93,9 @@ make module-qtcore-install_subtargets
 
 g++ -c -MMD -pipe -std=gnu++17 -g -Wall -Werror -O3
 
-
+sudo apt install \
 libssl-dev \
-python3-pip \
 ros-noetic-rtabmap-ros \
-k4a-tools \
-libk4a1.4 \
-libk4a1.4-dev \
 libgmp3-dev \
 liblapack-dev \
 libopenblas-base \
@@ -103,5 +105,3 @@ libgtsam-dev \
 libgtsam-unstable-dev \
 libsuitesparse-dev \
 
-
-sudo -H pip3 install -U jetson-stats
