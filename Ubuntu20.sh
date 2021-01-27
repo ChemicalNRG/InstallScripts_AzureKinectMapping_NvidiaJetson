@@ -42,6 +42,7 @@ libdbus-1-dev \
 libfontconfig1-dev \
 libharfbuzz-dev \
 libnss3-dev \
+libssl-dev \
 libvulkan-dev \
 libxkbcommon-dev \
 python3-pip
@@ -89,7 +90,7 @@ git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwayland qtwebengine qtxmlpatterns
 mkdir build && cd build
 ../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -skip qtmultimedia -gui -widgets
-make -j$(($(nproc) - 2)) HAS_SYSTEM_OPENSSL_ALPN=false HAS_SYSTEM_OPENSSL_NPN=true HAS_EMBEDDED_OPENSSL_ALPN=false && make clean
+make -j$(($(nproc) - 2)) && make clean
 sudo make install
 
 
@@ -104,7 +105,7 @@ cmake --build . --target core
 make module-qtcore-install_subtargets
 
 sudo apt install \
-libssl-dev \
+
 ros-noetic-rtabmap-ros \
 libgmp3-dev \
 liblapack-dev \
