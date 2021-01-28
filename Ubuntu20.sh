@@ -93,9 +93,24 @@ mkdir build && cd build
 make -j$(($(nproc) - 2)) && make clean
 sudo make install
 
+echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
+source ~/.bashrc
 
+# suitesparse
+git clone https://github.com/DrTimothyAldenDavis/SuiteSparse
+cd SuiteSparsesudo 
+make JOBS=$(($(nproc) - 2))
+sudo make install
 
-
+sudo nano /usr/local/cuda-10.2/include/crt/host_config.h
+# change:
+#if __GNUC__ > 8
+#error -- unsupported GNU version! gcc versions later than 8 are not supported!
+#endif /* __GNUC__ > 8 */
+# in:
+#if __GNUC__ > 9
+#error -- unsupported GNU version! gcc versions later than 9 are not supported!
+#endif /* __GNUC__ > 9 */
 
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
