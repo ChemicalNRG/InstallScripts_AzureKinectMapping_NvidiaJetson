@@ -67,6 +67,8 @@ cmake ..
 make -j$(($(nproc) - 2))
 sudo make install
 
+cd ../..
+
 # libpng
 # https://github.com/glennrp/libpng/tree/libpng16/contrib/arm-neon
 git clone https://github.com/glennrp/libpng
@@ -74,6 +76,8 @@ mkdir libpng/build && cd libpng/build
 .././configure --enable-arm-neon=check
 make -j$(($(nproc) - 2))
 sudo make install
+
+cd ../..
 
 # Qt5
 # https://forum.qt.io/topic/71651/how-to-compile-only-a-minimum-set-of-modules/8
@@ -101,7 +105,8 @@ make clean
 
 echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
-sudo ln -s /usr/local/qt5/bin/qmake /usr/lib/qt5/bin/qmake
+
+cd ../..
 
 sudo nano /usr/local/cuda-10.2/include/crt/host_config.h
 # change:
@@ -122,11 +127,15 @@ cd SuiteSparse
 make library JOBS=$(($(nproc) - 2))
 sudo make install INSTALL=/usr/local
 
+cd ../..
+
 # eigen
 git clone https://gitlab.com/libeigen/eigen.git
 mkdir eigen/build && cd eigen/build
 cmake ..
 sudo make install
+
+cd ../..
 
 # ceres-solver
 git clone https://ceres-solver.googlesource.com/ceres-solver
@@ -137,12 +146,16 @@ cmake .. \
 make -j$(($(nproc) - 2))
 sudo make install
 
+cd ../..
+
 # libQGLViewer
 git clone https://github.com/GillesDebunne/libQGLViewer libQGLViewer-2.7.2
 cd libQGLViewer-2.7.2/QGLViewer
 qmake PREFIX=/user/local
 make -j$(($(nproc) - 2))
 sudo make install
+
+cd ../..
 
 # g2o (blas opties, miss zelfde blas als opencv gebruiken, dus nog een keer compilen)
 git clone https://github.com/RainerKuemmerle/g2o
@@ -153,6 +166,8 @@ cmake .. \
 -DG2O_BUILD_EXAMPLES:BOOL=OFF
 make -j$(($(nproc) - 2))
 sudo make install
+
+cd ../..
 
 # VTK
 git clone https://github.com/Kitware/VTK.git
@@ -169,6 +184,44 @@ cd build && cmake .. \
 -DBUILD_SHARED_LIBS:BOOL=ON
 make -j$(($(nproc) - 2))
 sudo make install
+
+# opencv4.5.1
+mkdir opencv451 && cd opencv451
+git clone https://github.com/opencv/opencv
+git clone https://github.com/opencv/opencv_contrib
+mkdir build && cd build
+cmake ../opencv \
+-DCMAKE_BUILD_TYPE=RELEASE \
+-DCMAKE_INSTALL_PREFIX=/usr/local \
+-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
+-DOPENCV_ENABLE_NONFREE=ON \
+-DINSTALL_C_EXAMPLES=OFF \
+-DINSTALL_PYTHON_EXAMPLES=OFF \
+-DBUILD_PERF_TESTS=OFF \
+-DBUILD_EXAMPLES=OFF \
+-DBUILD_TESTS=OFF \
+-DBUILD_DOCS=OFF \
+-DCUDA_ARCH_BIN=7.2 \
+-DCUDA_ARCH_PTX="" \
+-DCUDA_FAST_MATH=ON \
+-DWITH_CUDA=ON \
+-DWITH_CUDNN=ON \
+-DWITH_CUBLAS=ON \
+-DWITH_TBB=ON \
+-DWITH_V4L=ON \
+-DWITH_QT=ON \
+-DWITH_OPENGL=ON
+make -j$(($(nproc) - 2))
+
+#Unavailable:                 cnn_3dobj hdf java julia matlab ovis ts
+cd ~/Repos
+sudo apt-get install \
+libxvidcore-dev libx264-dev  \
+v4l-utils libvorbis-dev libxine2-dev \
+libfaac-dev libmp3lame-dev \
+libopencore-amrnb-dev libopencore-amrwb-dev \
+libopenblas-dev libatlas-base-dev protobuf-compiler \
+libprotobuf-dev
 
 
 
@@ -189,5 +242,3 @@ libmpfr-dev \
 libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
-libsuitesparse-dev \
-
