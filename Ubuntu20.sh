@@ -40,11 +40,16 @@ libk4a1.4-dev \
 libclang-dev \
 libdbus-1-dev \
 libfontconfig1-dev \
+libgflags-dev \
+libgmp-dev \
+libgoogle-glog-dev \
 libharfbuzz-dev \
+libmpfr-dev \
 libnss3-dev \
 libssl-dev \
 libvulkan-dev \
 libxkbcommon-dev \
+nano \make
 python3-pip
 
 sudo -H pip3 install -U jetson-stats
@@ -90,8 +95,9 @@ git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwayland qtwebengine qtxmlpatterns
 mkdir build && cd build
 ../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -skip qtmultimedia -skip qtwebengine -gui -widgets
-make -j$(($(nproc) - 2)) && make clean
+make -j$(($(nproc) - 2))
 sudo make install
+make clean
 
 echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
@@ -101,7 +107,7 @@ sudo nano /usr/local/cuda-10.2/include/crt/host_config.h
 #if __GNUC__ > 8
 #error -- unsupported GNU version! gcc versions later than 8 are not supported!
 #endif /* __GNUC__ > 8 */
-# in:
+# to:
 #if __GNUC__ > 9
 #error -- unsupported GNU version! gcc versions later than 9 are not supported!
 #endif /* __GNUC__ > 9 */
@@ -112,9 +118,23 @@ sudo ln -s /usr/lib/aarch64-linux-gnu/libcublas.so.10.2.2.89 /usr/local/cuda-10.
 # suitesparse
 git clone https://github.com/DrTimothyAldenDavis/SuiteSparse
 cd SuiteSparse
-make JOBS=$(($(nproc) - 2))
+make library JOBS=$(($(nproc) - 2))
+sudo make install INSTALL=/usr/local
+
+# eigen
+git clone https://gitlab.com/libeigen/eigen.git
+mkdir eigen/build && cd eigen/build
+cmake ..
 sudo make install
 
+# ceres-solver
+git clone https://ceres-solver.googlesource.com/ceres-solver
+mkdir ceres-solver/build && cd ceres-solver/build
+cmake .. \
+-DBUILD_EXAMPLES:BOOL=OFF \
+-DBUILD_TESTING:BOOL=OFF
+make -j$(($(nproc) - 2))
+sudo make install
 
 
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
