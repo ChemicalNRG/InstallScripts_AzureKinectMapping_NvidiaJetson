@@ -154,6 +154,23 @@ cmake .. \
 make -j$(($(nproc) - 2))
 sudo make install
 
+# VTK
+git clone https://github.com/Kitware/VTK.git
+mkdir VTK/build && cd VTK
+git checkout v8.2.0
+git submodule update --init --recursive
+cd build && cmake .. \
+-DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_INSTALL_PREFIX=/usr/local \
+-DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc \
+-DVTK_USE_CUDA:BOOL=ON \
+-DBUILD_EXAMPLES:BOOL=OFF \
+-DBUILD_TESTING:BOOL=OFF \
+-DBUILD_SHARED_LIBS:BOOL=ON
+make -j$(($(nproc) - 2))
+sudo make install
+
+
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
 sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
