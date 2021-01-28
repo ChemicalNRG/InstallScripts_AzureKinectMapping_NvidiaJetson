@@ -101,6 +101,7 @@ make clean
 
 echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
+sudo ln -s /usr/local/qt5/bin/qmake /usr/lib/qt5/bin/qmake
 
 sudo nano /usr/local/cuda-10.2/include/crt/host_config.h
 # change:
@@ -136,6 +137,22 @@ cmake .. \
 make -j$(($(nproc) - 2))
 sudo make install
 
+# libQGLViewer
+git clone https://github.com/GillesDebunne/libQGLViewer libQGLViewer-2.7.2
+cd libQGLViewer-2.7.2/QGLViewer
+qmake PREFIX=/user/local
+make -j$(($(nproc) - 2))
+sudo make install
+
+# g2o
+git clone https://github.com/RainerKuemmerle/g2o
+mkdir g2o/build && cd g2o/build
+cmake .. \
+-DG2O_FAST_MATH:BOOL=ON \
+-DG2O_BUILD_BENCHMARKS:BOOL=OFF \
+-DG2O_BUILD_EXAMPLES:BOOL=OFF
+make -j$(($(nproc) - 2))
+sudo make install
 
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
