@@ -144,7 +144,7 @@ qmake PREFIX=/user/local
 make -j$(($(nproc) - 2))
 sudo make install
 
-# g2o
+# g2o (blas opties, miss zelfde blas als opencv gebruiken, dus nog een keer compilen)
 git clone https://github.com/RainerKuemmerle/g2o
 mkdir g2o/build && cd g2o/build
 cmake .. \
@@ -169,6 +169,7 @@ cd build && cmake .. \
 -DBUILD_SHARED_LIBS:BOOL=ON
 make -j$(($(nproc) - 2))
 sudo make install
+
 
 
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
