@@ -89,7 +89,7 @@ sudo make install
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwayland qtwebengine qtxmlpatterns
 mkdir build && cd build
-../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -skip qtmultimedia -gui -widgets
+../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -skip qtmultimedia -skip qtwebengine -gui -widgets
 make -j$(($(nproc) - 2)) && make clean
 sudo make install
 
