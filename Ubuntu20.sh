@@ -49,12 +49,12 @@ libnss3-dev \
 libssl-dev \
 libvulkan-dev \
 libxkbcommon-dev \
-nano \make
+nano \
 python3-pip
 
 sudo -H pip3 install -U jetson-stats
 
-cups (printsupport) + gtk+(qtWidgets) wayland client library(qtwayland client/qtmultimedia)
+cups (printsupport) + gtk+(qtWidgets) wayland client library(qtwayland client/qtmultimedia) (miss nog eens compilen na gtk support door opencv)
 
 # Compile and install the needed Modules:
 # https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
