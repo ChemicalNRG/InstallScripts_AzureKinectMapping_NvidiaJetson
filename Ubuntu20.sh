@@ -73,7 +73,7 @@ cd ../..
 # https://github.com/glennrp/libpng/tree/libpng16/contrib/arm-neon
 git clone https://github.com/glennrp/libpng
 mkdir libpng/build && cd libpng/build
-.././configure --enable-arm-neon=check
+.././configure --enable-arm-neon=yes
 make -j$(($(nproc) - 2))
 sudo make install
 
@@ -95,10 +95,12 @@ cd ../..
 # QtCore QtConcurrent QtGui QtOpenGL QtPrintSupport QtSql QtSvg QtTest QtWidgets QtWebEngine
 # submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwebengine qtxmlpatterns
 # https://github.com/grpc/grpc/issues/11655
+# VTK: Qt5X11Extras 
+# old configure: -skip qtmultimedia (error in qtwayland client) -skip qtwebengine
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtwayland qtwebengine qtxmlpatterns
+git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtx11extras qtxmlpatterns
 mkdir build && cd build
-../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -skip qtmultimedia -skip qtwebengine -gui -widgets
+../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
 make -j$(($(nproc) - 2))
 sudo make install
 make clean
@@ -177,11 +179,11 @@ git submodule update --init --recursive
 cd build && cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_INSTALL_PREFIX=/usr/local \
--DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc \
--DVTK_USE_CUDA:BOOL=ON \
+-DVTK_Group_Qt:BOOL=ON \
 -DBUILD_EXAMPLES:BOOL=OFF \
 -DBUILD_TESTING:BOOL=OFF \
--DBUILD_SHARED_LIBS:BOOL=ON
+-DBUILD_SHARED_LIBS:BOOL=ON \
+-DVTK_USE_SYSTEM_PNG=ON
 make -j$(($(nproc) - 2))
 sudo make install
 
@@ -212,9 +214,12 @@ cmake ../opencv \
 -DWITH_QT=ON \
 -DWITH_OPENGL=ON
 make -j$(($(nproc) - 2))
+sudo make install
 
 #Unavailable:                 cnn_3dobj hdf java julia matlab ovis ts
-cd ~/Repos
+sudo apt remove libgtk2.0-dev libcanberra-gtk* libgtk-3-dev  # will remove all gtk from jetson (more performance)
+# after autoremove had to install:  libgtk3-nocsd0 (pcl)
+
 sudo apt-get install \
 libxvidcore-dev libx264-dev  \
 v4l-utils libvorbis-dev libxine2-dev \
@@ -223,14 +228,51 @@ libopencore-amrnb-dev libopencore-amrwb-dev \
 libopenblas-dev libatlas-base-dev protobuf-compiler \
 libprotobuf-dev
 
+cd ../..
 
+# libnabo (needed for libpointmatcher)
+git clone git://github.com/ethz-asl/libnabo.git
+mkdir libnabo/build && cd libnabo/build
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+make -j$(($(nproc) - 2))
+sudo make install
+
+cd ../..
+
+sudo apt install libboost-all-dev
+
+# libpointmatcher
+git clone https://github.com/ethz-asl/libpointmatcher
+mkdir libpointmatcher/build && cd libpointmatcher/build
+cmake ..
+make -j$(($(nproc) - 2))
+sudo make install
+
+cd ../..
+
+sudo apt install \
+libflann-dev \
+libglew-dev \
+libopenni-dev \
+libopenni2-dev \
+libqhull-dev
+
+# pcl (arch=native)
+git clone https://github.com/larshg/pcl
+mkdir pcl/build && cd pcl/build
+cmake .. \
+-DCUDA_ARCH_BIN=7.2 \
+-DBUILD_CUDA=ON \
+-DBUILD_GPU=ON
+
+make -j$(($(nproc) - 4))
+sudo make install
+
+-DPNG_ARM_NEON_OPT=0
 
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
 sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
-
-cmake --build . --target core
-make module-qtcore-install_subtargets
 
 sudo apt install \
 
