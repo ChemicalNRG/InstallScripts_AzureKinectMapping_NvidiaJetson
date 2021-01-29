@@ -49,6 +49,7 @@ libnss3-dev \
 libssl-dev \
 libvulkan-dev \
 libxkbcommon-dev \
+libxkbcommon-x11-dev \
 nano \
 python3-pip
 
@@ -179,7 +180,6 @@ git submodule update --init --recursive
 cd build && cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_INSTALL_PREFIX=/usr/local \
--DVTK_Group_Qt:BOOL=ON \
 -DBUILD_EXAMPLES:BOOL=OFF \
 -DBUILD_TESTING:BOOL=OFF \
 -DBUILD_SHARED_LIBS:BOOL=ON \
