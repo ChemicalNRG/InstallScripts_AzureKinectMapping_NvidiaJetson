@@ -89,6 +89,8 @@ git submodule update --init --recursive
 mkdir build && cd build
 ../configure -prefix /usr/local -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
 make -j$(($(nproc) - 2))
+sudo apt remove *libopencv*-dev
+sudo apt autoremove
 sudo make install
 
 cd ../..
