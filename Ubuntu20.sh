@@ -269,6 +269,8 @@ cmake .. \
 make -j$(($(nproc) - 4))
 sudo make install
 
+cd ../..
+
 # Build RtabMap
 git clone https://github.com/introlab/rtabmap.git
 cd rtabmap/build
