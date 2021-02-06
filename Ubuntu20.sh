@@ -101,10 +101,9 @@ cd ../..
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtx11extras qtxmlpatterns
 mkdir build && cd build
-../configure -prefix /usr/local/qt5 -opensource -confirm-license -opengl desktop -nomake tests -nomake examples -gui -widgets
+../configure -prefix /usr/local/qt5 -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
 make -j$(($(nproc) - 2))
 sudo make install
-make clean
 
 echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
@@ -186,6 +185,8 @@ cd build && cmake .. \
 -DVTK_USE_SYSTEM_PNG=ON
 make -j$(($(nproc) - 2))
 sudo make install
+
+cd ../..
 
 # opencv4.5.1
 mkdir opencv451 && cd opencv451
