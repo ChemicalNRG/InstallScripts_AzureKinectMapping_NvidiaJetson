@@ -87,12 +87,9 @@ cd ../..
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive
 mkdir build && cd build
-../configure -prefix /usr/local/qt5 -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
+../configure -prefix /usr/local -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
 make -j$(($(nproc) - 2))
 sudo make install
-
-echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
-source ~/.bashrc
 
 cd ../..
 
@@ -168,7 +165,8 @@ cd build && cmake .. \
 -DBUILD_EXAMPLES:BOOL=OFF \
 -DBUILD_TESTING:BOOL=OFF \
 -DBUILD_SHARED_LIBS:BOOL=ON \
--DVTK_USE_SYSTEM_PNG=ON
+-DVTK_USE_SYSTEM_PNG=ON \
+-DVTK_QT_VERSION=5
 make -j$(($(nproc) - 2))
 sudo make install
 
@@ -201,6 +199,8 @@ cmake ../opencv \
 -DWITH_QT=ON \
 -DWITH_OPENGL=ON
 make -j$(($(nproc) - 2))
+sudo apt remove *libopencv*-dev
+sudo apt autoremove
 sudo make install
 
 sudo apt remove libgtk2.0-dev libcanberra-gtk* libgtk-3-dev  # will remove all gtk from jetson (more performance)
@@ -282,6 +282,9 @@ libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
 
+-prefix /usr/local/qt5
+echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
+source ~/.bashrc
 
 [ 10%] Linking CXX executable ../../../bin/rtabmap-extractObject
 /usr/bin/ld: cannot find -lvtkGUISupportQt
