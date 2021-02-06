@@ -274,14 +274,14 @@ cd ../..
 # Build RtabMap
 git clone https://github.com/introlab/rtabmap.git
 cd rtabmap/build
-cmake -DBUILD_EXAMPLES=OFF ..
+cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=5 ..
 make -j$(($(nproc) - 2))
 sudo make install
 
 
 
 
- -DRTABMAP_QT_VERSION=5
+
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
 wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
 sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
@@ -296,3 +296,11 @@ libmpfr-dev \
 libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
+
+
+[ 10%] Linking CXX executable ../../../bin/rtabmap-extractObject
+/usr/bin/ld: cannot find -lvtkGUISupportQt
+collect2: error: ld returned 1 exit status
+make[2]: *** [tools/ExtractObject/CMakeFiles/extractObject.dir/build.make:192: ../bin/rtabmap-extractObject] Error 1
+make[1]: *** [CMakeFiles/Makefile2:950: tools/ExtractObject/CMakeFiles/extractObject.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
