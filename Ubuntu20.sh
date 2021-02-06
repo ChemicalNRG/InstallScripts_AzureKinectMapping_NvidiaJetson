@@ -55,26 +55,12 @@ python3-pip
 
 sudo -H pip3 install -U jetson-stats
 
-cups (printsupport) + gtk+(qtWidgets) wayland client library(qtwayland client/qtmultimedia) (miss nog eens compilen na gtk support door opencv)
-
 # Compile and install the needed Modules:
-# https://forums.developer.nvidia.com/t/recommended-c-compilation-flags-for-jetson-xavier/79452
-# QMAKE_CXXFLAGS+="-c -MMD -pipe -std=gnu++17 -g -Wall -Werror -03"
 
 # zlib
 git clone https://github.com/madler/zlib
 mkdir zlib/build && cd zlib/build
 cmake ..
-make -j$(($(nproc) - 2))
-sudo make install
-
-cd ../..
-
-# libpng
-# https://github.com/glennrp/libpng/tree/libpng16/contrib/arm-neon
-git clone https://github.com/glennrp/libpng
-mkdir libpng/build && cd libpng/build
-.././configure --enable-arm-neon=yes
 make -j$(($(nproc) - 2))
 sudo make install
 
@@ -96,10 +82,10 @@ cd ../..
 # QtCore QtConcurrent QtGui QtOpenGL QtPrintSupport QtSql QtSvg QtTest QtWidgets QtWebEngine
 # submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwebengine qtxmlpatterns
 # https://github.com/grpc/grpc/issues/11655
-# VTK: Qt5X11Extras 
-# old configure: -skip qtmultimedia (error in qtwayland client) -skip qtwebengine
+# git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtx11extras qtxmlpatterns
+
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
-git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtx11extras qtxmlpatterns
+git submodule update --init --recursive
 mkdir build && cd build
 ../configure -prefix /usr/local/qt5 -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
 make -j$(($(nproc) - 2))
@@ -159,7 +145,7 @@ sudo make install
 
 cd ../..
 
-# g2o (blas opties, miss zelfde blas als opencv gebruiken, dus nog een keer compilen)
+# g2o
 git clone https://github.com/RainerKuemmerle/g2o
 mkdir g2o/build && cd g2o/build
 cmake .. \
@@ -217,11 +203,10 @@ cmake ../opencv \
 make -j$(($(nproc) - 2))
 sudo make install
 
-#Unavailable:                 cnn_3dobj hdf java julia matlab ovis ts
 sudo apt remove libgtk2.0-dev libcanberra-gtk* libgtk-3-dev  # will remove all gtk from jetson (more performance)
-# after autoremove had to install:  libgtk3-nocsd0 (pcl)
 
 sudo apt-get install \
+libgtk3-nocsd0 \
 libxvidcore-dev libx264-dev  \
 v4l-utils libvorbis-dev libxine2-dev \
 libfaac-dev libmp3lame-dev \
