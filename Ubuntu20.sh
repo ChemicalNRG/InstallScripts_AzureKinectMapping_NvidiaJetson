@@ -258,7 +258,9 @@ sudo make install
 cd ../..
 
 # Build RtabMap
-git clone https://github.com/introlab/rtabmap.git
+git clone https://github.com/introlab/rtabmap
+sed -i guilib/include/rtabmap/gui/CloudViewer.h
+sed -i guilib/src/CloudViewer.cpp
 cd rtabmap/build
 cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=5 ..
 make -j$(($(nproc) - 2))
