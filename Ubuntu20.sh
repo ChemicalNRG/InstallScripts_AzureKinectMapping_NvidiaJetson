@@ -158,17 +158,15 @@ cd ../..
 # VTK
 git clone https://github.com/Kitware/VTK.git
 mkdir VTK/build && cd VTK
-git checkout v8.2.0
 git submodule update --init --recursive
 cd build && cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_INSTALL_PREFIX=/usr/local \
--DBUILD_EXAMPLES:BOOL=OFF \
--DBUILD_TESTING:BOOL=OFF \
--DBUILD_SHARED_LIBS:BOOL=ON \
+-DBUILD_EXAMPLES=OFF \
+-DBUILD_TESTING=OFF \
+-DBUILD_SHARED_LIBS=ON \
 -DVTK_USE_SYSTEM_PNG=ON \
--DVTK_MODULE_ENABLE_VTK_GUISupportQt:STRING=YES \
--DVTK_MODULE_ENABLE_VTK_GUISupportQtSQL:STRING=YES \
+-DVTK_LEGACY_REMOVE=ON \
 -DVTK_QT_VERSION=5
 make -j$(($(nproc) - 2))
 sudo make install
