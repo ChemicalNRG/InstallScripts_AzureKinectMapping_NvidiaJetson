@@ -87,10 +87,9 @@ cd ../..
 git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
 git submodule update --init --recursive
 mkdir build && cd build
-../configure -prefix /usr/local -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols QT_DEBUG_PLUGINS=1
-sudo make -j$(($(nproc) - 2)) 
-sudo apt remove *libopencv*-dev
-sudo apt autoremove
+sudo apt autoremove *libopencv*-dev
+../configure -prefix /usr/local -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
+sudo make -j$(($(nproc) - 2)) QT_DEBUG_PLUGINS=1
 sudo make install
 
 cd ../..
@@ -251,9 +250,9 @@ mkdir pcl/build && cd pcl/build
 cmake .. \
 -DCUDA_ARCH_BIN=7.2 \
 -DBUILD_CUDA=ON \
--DBUILD_GPU=ON
-
-make -j$(($(nproc) - 4))
+-DBUILD_GPU=ON \
+-DBUILD_gpu_surface:BOOL=ON
+make -j$(($(nproc) - 2))
 sudo make install
 
 cd ../..
