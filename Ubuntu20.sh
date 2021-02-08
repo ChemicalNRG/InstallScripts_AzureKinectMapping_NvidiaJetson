@@ -33,6 +33,7 @@ checkinstall \
 cmake-data=3.19.2-0kitware1ubuntu20.04.1 \
 cmake \
 cmake-qt-gui \
+clang \
 gperf \
 k4a-tools \
 libk4a1.4 \
@@ -44,6 +45,7 @@ libgflags-dev \
 libgmp-dev \
 libgoogle-glog-dev \
 libharfbuzz-dev \
+libhdf5-dev \
 libmpfr-dev \
 libnss3-dev \
 libssl-dev \
@@ -113,12 +115,24 @@ cd SuiteSparse
 make library JOBS=$(($(nproc) - 2))
 sudo make install INSTALL=/usr/local
 
+# removed metis folder to get cholmod library (hopefully)
+# NVCCFLAGS= -Xcompiler -fPIC -O3 -gencode arch=compute_72,code=sm_72
+
 cd ../..
 
 # eigen
 git clone https://gitlab.com/libeigen/eigen.git
 mkdir eigen/build && cd eigen/build
-cmake ..
+cmake .. \
+-DEIGEN_TEST_NOQT=1 \
+-DEIGEN_TEST_NEON64=ON \
+-DEIGEN_TEST_CXX11=ON \
+-DEIGEN_TEST_CUDA=ON \
+-DEIGEN_TEST_CUDA_CLANG=ON \
+-DEIGEN_TEST_OPENGL=ON \
+-DOpenGL_GL_PREFERENCE=GLVND \
+-DEIGEN_CUDA_COMPUTE_ARCH:STRING=72 \
+-DEIGEN_TEST_OPENMP=ON
 sudo make install
 
 cd ../..
@@ -128,7 +142,8 @@ git clone https://ceres-solver.googlesource.com/ceres-solver
 mkdir ceres-solver/build && cd ceres-solver/build
 cmake .. \
 -DBUILD_EXAMPLES:BOOL=OFF \
--DBUILD_TESTING:BOOL=OFF
+-DBUILD_TESTING:BOOL=OFF \
+-DSUITESPARSE:BOOL=ON
 make -j$(($(nproc) - 2))
 sudo make install
 
@@ -158,6 +173,7 @@ cd ../..
 # VTK
 git clone https://github.com/Kitware/VTK.git
 mkdir VTK/build && cd VTK
+git checkout v8.2.0
 git submodule update --init --recursive
 cd build && cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
@@ -167,6 +183,7 @@ cd build && cmake .. \
 -DBUILD_SHARED_LIBS=ON \
 -DVTK_USE_SYSTEM_PNG=ON \
 -DVTK_LEGACY_REMOVE=ON \
+-DVTK_Group_Qt=ON \
 -DVTK_QT_VERSION=5
 make -j$(($(nproc) - 2))
 sudo make install
@@ -191,6 +208,7 @@ cmake ../opencv \
 -DBUILD_DOCS=OFF \
 -DCUDA_ARCH_BIN=7.2 \
 -DCUDA_ARCH_PTX="" \
+-DENABLE_FAST_MATH=ON \
 -DCUDA_FAST_MATH=ON \
 -DWITH_CUDA=ON \
 -DWITH_CUDNN=ON \
@@ -255,18 +273,29 @@ cmake .. \
 make -j$(($(nproc) - 2))
 sudo make install
 
+pcl::getAngle3D
+pcl::Indices
+
+from source:
+libusb
+magma
+
+
 cd ../..
 
 # Build RtabMap
 git clone https://github.com/introlab/rtabmap
-sed -i guilib/include/rtabmap/gui/CloudViewer.h
-sed -i guilib/src/CloudViewer.cpp
+sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/include/rtabmap/gui/CloudViewer.h
+sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/src/CloudViewer.cpp
+sed -i 's/ADD_SUBDIRECTORY( ExtractObject )/# ADD_SUBDIRECTORY( ExtractObject )/g' rtabmap/tools/CMakeLists.txt
 cd rtabmap/build
 cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=5 ..
 make -j$(($(nproc) - 2))
+make -j1 VERBOSE=1
 sudo make install
 
-
+util3d_correspondences.cpp
+rtabmap/corelib/src/util3d_surface.cpp
 
 
 
