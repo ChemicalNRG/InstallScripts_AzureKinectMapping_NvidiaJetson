@@ -27,6 +27,7 @@ sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
 sudo add-apt-repository ppa:borglab/gtsam-release-4.0
 
 sudo apt install \
+apt-file \
 apt-utils \
 build-essential \
 checkinstall \
@@ -46,6 +47,7 @@ libgmp-dev \
 libgoogle-glog-dev \
 libharfbuzz-dev \
 libhdf5-dev \
+libinput-dev \
 libmpfr-dev \
 libnss3-dev \
 libssl-dev \
@@ -53,6 +55,8 @@ libvulkan-dev \
 libxkbcommon-dev \
 libxkbcommon-x11-dev \
 nano \
+ninja-build \
+nodejs \
 python3-pip
 
 sudo -H pip3 install -U jetson-stats
@@ -85,11 +89,14 @@ cd ../..
 # submodules in folders: qtbase qt3d qtconnectivity qtdeclarative qtgamepad qtimageformats qtlocation qtmultimedia qtquick3d qtquickcontrols2 qtscript qtscxml qtsensors qtserialbus qtserialport qtspeech qttools qtwebengine qtxmlpatterns
 # https://github.com/grpc/grpc/issues/11655
 # git submodule update --init --recursive qt3d qtbase qtconnectivity qtdeclarative qtimageformats qtlocation qtquick3d qtquickcontrols2 qtscript qtscxml qtserialbus qttools qtx11extras qtxmlpatterns
+# makeQT script also uses the -qt-xcb     https://www.cfd-online.com/Forums/openfoam-installation/197626-paraview-cmake-error.html
+# git checkout 5.15.1
 
-git clone https://code.qt.io/qt/qt5.git --branch 5.15 && cd qt5
+git clone https://code.qt.io/qt/qt5.git --branch 5.15.1 && cd qt5
 git submodule update --init --recursive
 mkdir build && cd build
 sudo apt autoremove *libopencv*-dev
+../configure -prefix /usr/local -opensource -confirm-license -nomake tests -nomake examples -opengl desktop
 ../configure -prefix /usr/local -opensource -confirm-license -nomake tests -nomake examples -opengl desktop -skip qtdocgallery -skip qtlocation -skip qtvirtualkeyboard -skip qtmultimedia -skip qtquickcontrols
 sudo make -j$(($(nproc) - 2)) QT_DEBUG_PLUGINS=1
 sudo make install
@@ -112,11 +119,12 @@ sudo ln -s /usr/lib/aarch64-linux-gnu/libcublas.so.10.2.2.89 /usr/local/cuda-10.
 # suitesparse
 git clone https://github.com/DrTimothyAldenDavis/SuiteSparse
 cd SuiteSparse
-make library JOBS=$(($(nproc) - 2))
+make library -j2 INSTALL=/usr/local
 sudo make install INSTALL=/usr/local
+sudo apt install libsuitesparse-dev
 
-# removed metis folder to get cholmod library (hopefully)
-# NVCCFLAGS= -Xcompiler -fPIC -O3 -gencode arch=compute_72,code=sm_72
+# library
+# DESTDIR=/work/qt-prefix make install
 
 cd ../..
 
