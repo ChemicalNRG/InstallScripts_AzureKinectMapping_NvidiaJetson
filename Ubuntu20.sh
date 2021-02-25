@@ -292,14 +292,16 @@ cd ../..
 
 # Build RtabMap
 git clone https://github.com/introlab/rtabmap
-sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/include/rtabmap/gui/CloudViewer.h
-sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/src/CloudViewer.cpp
-sed -i 's/ADD_SUBDIRECTORY( ExtractObject )/# ADD_SUBDIRECTORY( ExtractObject )/g' rtabmap/tools/CMakeLists.txt
 cd rtabmap/build
 cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=5 ..
 make -j$(($(nproc) - 2))
 make -j1 VERBOSE=1
 sudo make install
+
+
+sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/include/rtabmap/gui/CloudViewer.h
+sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/src/CloudViewer.cpp
+sed -i 's/ADD_SUBDIRECTORY( ExtractObject )/# ADD_SUBDIRECTORY( ExtractObject )/g' rtabmap/tools/CMakeLists.txt
 
 util3d_correspondences.cpp
 rtabmap/corelib/src/util3d_surface.cpp
