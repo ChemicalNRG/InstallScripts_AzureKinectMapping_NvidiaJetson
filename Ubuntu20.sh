@@ -288,13 +288,8 @@ cmake .. \
 make -j$(($(nproc) - 2))
 sudo make install
 
-pcl::getAngle3D
-pcl::Indices
-
 from source:
-libusb
 magma
-
 
 cd ../..
 
