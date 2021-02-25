@@ -62,6 +62,11 @@ python3-pip
 sudo -H pip3 install -U jetson-stats
 
 # Compile and install the needed Modules:
+# libusb
+git clone https://github.com/libusb/libusb
+./bootstrap.sh
+make
+sudo make install
 
 # zlib
 git clone https://github.com/madler/zlib
