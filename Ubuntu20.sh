@@ -92,7 +92,7 @@ cd ../..
 # makeQT script also uses the -qt-xcb     https://www.cfd-online.com/Forums/openfoam-installation/197626-paraview-cmake-error.html
 # git checkout 5.15.1
 
-git clone https://code.qt.io/qt/qt5.git --branch 5.15.1 && cd qt5
+git clone https://code.qt.io/qt/qt5.git --branch 5.14.2 && cd qt5
 git submodule update --init --recursive
 mkdir build && cd build
 sudo apt autoremove *libopencv*-dev
