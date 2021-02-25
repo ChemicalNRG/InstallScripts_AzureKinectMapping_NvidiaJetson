@@ -288,8 +288,8 @@ cmake .. \
 make -j$(($(nproc) - 2))
 sudo make install
 
-from source:
-magma
+# from source:
+# magma
 
 cd ../..
 
@@ -306,14 +306,6 @@ sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/include/rtabmap/gui/Clou
 sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/src/CloudViewer.cpp
 sed -i 's/ADD_SUBDIRECTORY( ExtractObject )/# ADD_SUBDIRECTORY( ExtractObject )/g' rtabmap/tools/CMakeLists.txt
 
-util3d_correspondences.cpp
-rtabmap/corelib/src/util3d_surface.cpp
-
-
-
-# https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=sbsa&compilation=compilation_native&target_distro=Ubuntu&target_version=2004
-wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux_sbsa.run
-sudo sh cuda_11.2.0_460.27.04_linux_sbsa.run # accept (Eula) --> disable driver --> install --> dont update symlink
 
 sudo apt install \
 
