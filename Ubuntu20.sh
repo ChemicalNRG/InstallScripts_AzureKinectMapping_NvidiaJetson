@@ -197,11 +197,12 @@ cd build && cmake .. \
 -DBUILD_TESTING=OFF \
 -DBUILD_SHARED_LIBS=ON \
 -DVTK_USE_SYSTEM_PNG=ON \
--DVTK_LEGACY_REMOVE=ON \
 -DVTK_Group_Qt=ON \
 -DVTK_QT_VERSION=5
 make -j$(($(nproc) - 2))
 sudo make install
+
+-DVTK_LEGACY_REMOVE=ON \
 
 cd ../..
 
@@ -301,11 +302,9 @@ make -j$(($(nproc) - 2))
 make -j1 VERBOSE=1
 sudo make install
 
-
 sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/include/rtabmap/gui/CloudViewer.h
 sed -i 's/QVTKWidget/QVTKOpenGLWidget/g' rtabmap/guilib/src/CloudViewer.cpp
 sed -i 's/ADD_SUBDIRECTORY( ExtractObject )/# ADD_SUBDIRECTORY( ExtractObject )/g' rtabmap/tools/CMakeLists.txt
-
 
 sudo apt install \
 
