@@ -120,6 +120,8 @@ sudo nano /usr/local/cuda-10.2/include/crt/host_config.h
 #error -- unsupported GNU version! gcc versions later than 9 are not supported!
 #endif /* __GNUC__ > 9 */
 
+#replace 8 with 9????
+
 # https://forums.developer.nvidia.com/t/cublas-for-10-1-is-missing/71015/5
 sudo ln -s /usr/lib/aarch64-linux-gnu/libcublas.so.10.2.2.89 /usr/local/cuda-10.2/lib64/libcublas.so
 
