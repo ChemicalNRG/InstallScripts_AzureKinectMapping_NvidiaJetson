@@ -327,3 +327,6 @@ libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
 
+# sudo dpkg -i --force-overwrite /var/cache/apt/archives/nvidia-l4t-init
+# sudo apt --fix-broken install
+
