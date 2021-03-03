@@ -18,13 +18,17 @@ sudo apt autoremove
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
+# add GTSAM repository
+sudo add-apt-repository ppa:borglab/gtsam-release-4.0
+
 # add microsoft repository
 wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 echo 'deb [arch=arm64] https://packages.microsoft.com/ubuntu/18.04/multiarch/prod bionic main' | sudo tee /etc/apt/sources.list.d/microsoft-prod.list
 sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
 
-# add GTSAM repository
-sudo add-apt-repository ppa:borglab/gtsam-release-4.0
+# kitware repository (cmake)
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+sudo apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -sc) main"
 
 sudo apt install \
 apt-file \
@@ -60,6 +64,10 @@ nodejs \
 python3-pip
 
 sudo -H pip3 install -U jetson-stats
+
+# Install the Azure Kinect rules
+wget https://github.com/microsoft/Azure-Kinect-Sensor-SDK/raw/develop/scripts/99-k4a.rules
+sudo mv -t /etc/udev/rules.d 99-k4a.rules
 
 # Compile and install the needed Modules:
 
