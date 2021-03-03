@@ -304,7 +304,7 @@ sudo make install
 
 cd ../..
 
-# Build RtabMap
+# Build RtabMap (0.20.7?)
 git clone https://github.com/introlab/rtabmap
 cd rtabmap/build
 cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=5 ..
@@ -327,13 +327,3 @@ libgdal-dev
 libgtsam-dev \
 libgtsam-unstable-dev \
 
--prefix /usr/local/qt5
-echo "export PATH=/usr/local/qt5/bin:$PATH" >> ~/.bashrc
-source ~/.bashrc
-
-[ 10%] Linking CXX executable ../../../bin/rtabmap-extractObject
-/usr/bin/ld: cannot find -lvtkGUISupportQt
-collect2: error: ld returned 1 exit status
-make[2]: *** [tools/ExtractObject/CMakeFiles/extractObject.dir/build.make:192: ../bin/rtabmap-extractObject] Error 1
-make[1]: *** [CMakeFiles/Makefile2:950: tools/ExtractObject/CMakeFiles/extractObject.dir/all] Error 2
-make[1]: *** Waiting for unfinished jobs....
