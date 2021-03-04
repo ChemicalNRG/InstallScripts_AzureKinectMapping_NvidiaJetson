@@ -301,7 +301,7 @@ sudo make install
 
 cd ../..
 
-# Build RtabMap (0.20.7?)
+# Build RtabMap (0.20.8+)
 git clone https://github.com/introlab/rtabmap
 cd rtabmap/build
 cmake -DBUILD_EXAMPLES=OFF -DRTABMAP_QT_VERSION=5 ..
