@@ -140,9 +140,6 @@ make library -j2 INSTALL=/usr/local
 sudo make install INSTALL=/usr/local
 sudo apt install libsuitesparse-dev
 
-# library
-# DESTDIR=/work/qt-prefix make install
-
 cd ../..
 
 # eigen
